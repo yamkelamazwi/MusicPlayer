@@ -242,9 +242,15 @@ button {
   background: linear-gradient(135deg, #ff7189, #ffa078);
 }
 
-/* The hidden attribute must win over the SVG display styles above. */
-#play svg[hidden] {
+/* The button has both icons in its markup; show only the one JS leaves unhidden. */
+#play .play-icon,
+#play .pause-icon {
   display: none !important;
+}
+
+#play .play-icon:not([hidden]),
+#play .pause-icon:not([hidden]) {
+  display: block !important;
 }
 
 .playlist {
