@@ -1,9 +1,12 @@
-const playlistSongs = document.getElementById("playlist-songs");
 const playButton = document.getElementById("play");
+const playPauseGlyph = document.getElementById("play-pause-glyph");
 const nextButton = document.getElementById("next");
 const previousButton = document.getElementById("previous");
 const playingSong = document.getElementById("player-song-title");
 const songArtist = document.getElementById("player-song-artist");
+
+const PLAY_ICON_PATH = "M0 0L16.1852 9.5L0 19V0Z";
+const PAUSE_ICON_PATH = "M0 0H4.75V19H0V0ZM11.4 0H16.15V19H11.4V0Z";
 
 const allSongs = [
   { id: 0, title: "Hello World", artist: "Rafael", duration: "0:23", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/hello-world.mp3" },
@@ -14,7 +17,6 @@ const allSongs = [
 ];
 
 const audio = new Audio();
-
 const userData = {
   songs: allSongs,
   currentSong: null,
@@ -22,33 +24,32 @@ const userData = {
 };
 
 const setPlayPauseIcon = (isPlaying) => {
-  const playIcon = playButton.querySelector(".play-icon");
-  const pauseIcon = playButton.querySelector(".pause-icon");
-
-  playIcon.hidden = isPlaying;
-  pauseIcon.hidden = !isPlaying;
+  playPauseGlyph.setAttribute("d", isPlaying ? PAUSE_ICON_PATH : PLAY_ICON_PATH);
   playButton.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+  playButton.setAttribute("aria-pressed", String(isPlaying));
 };
 
-const playSong = (id, start = true) => {
+const playSong = async (id, start = true) => {
   const song = userData.songs.find((item) => item.id === id);
   if (!song) return;
 
   audio.src = song.src;
   audio.title = song.title;
-
-  if (userData.currentSong === null || start) {
-    audio.currentTime = 0;
-  } else {
-    audio.currentTime = userData.songCurrentTime;
-  }
+  audio.currentTime = userData.currentSong === null || start
+    ? 0
+    : userData.songCurrentTime;
 
   userData.currentSong = song;
-  setPlayPauseIcon(true);
-
   highlightCurrentSong();
   setPlayerDisplay();
-  audio.play().catch(() => setPlayPauseIcon(false));
+
+  try {
+    await audio.play();
+    setPlayPauseIcon(true);
+  } catch (error) {
+    setPlayPauseIcon(false);
+    console.error("Unable to play this track:", error);
+  }
 };
 
 const pauseSong = () => {
@@ -63,7 +64,6 @@ const getPreviousSong = () => userData.songs[getCurrentSongIndex() - 1];
 
 const playPreviousSong = () => {
   if (userData.currentSong === null) return;
-
   const previousSong = getPreviousSong();
   playSong(previousSong ? previousSong.id : userData.songs[0].id);
 };
@@ -82,45 +82,42 @@ const playNextSong = () => {
     userData.songCurrentTime = 0;
     setPlayerDisplay();
     highlightCurrentSong();
-    setPlayPauseIcon(false);
     audio.pause();
+    setPlayPauseIcon(false);
   }
 };
 
 const setPlayerDisplay = () => {
-  const currentTitle = userData.currentSong?.title;
-  const currentArtist = userData.currentSong?.artist;
-
-  playingSong.textContent = currentTitle || "";
-  songArtist.textContent = currentArtist || "";
+  playingSong.textContent = userData.currentSong?.title || "";
+  songArtist.textContent = userData.currentSong?.artist || "";
 };
 
 const highlightCurrentSong = () => {
-  const previousCurrentSong = document.querySelector('.playlist-song[aria-current="true"]');
-  previousCurrentSong?.removeAttribute("aria-current");
-
-  const songToHighlight = document.getElementById(`song-${userData.currentSong?.id}`);
-  songToHighlight?.setAttribute("aria-current", "true");
+  document.querySelector('.playlist-song[aria-current="true"]')
+    ?.removeAttribute("aria-current");
+  document.getElementById(`song-${userData.currentSong?.id}`)
+    ?.setAttribute("aria-current", "true");
 };
 
 playButton.addEventListener("click", () => {
   if (userData.currentSong === null) {
     playSong(userData.songs[0].id);
-  } else if (!audio.paused) {
-    pauseSong();
-  } else {
+  } else if (audio.paused) {
     playSong(userData.currentSong.id, false);
+  } else {
+    pauseSong();
   }
 });
 
 document.querySelectorAll(".playlist-song").forEach((song) => {
-  const id = Number(song.id.slice(5));
   song.querySelector("button").addEventListener("click", () => {
-    playSong(id);
+    playSong(Number(song.id.slice(5)));
   });
 });
 
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
+audio.addEventListener("play", () => setPlayPauseIcon(true));
+audio.addEventListener("pause", () => setPlayPauseIcon(false));
 audio.addEventListener("ended", playNextSong);
 setPlayPauseIcon(false);
