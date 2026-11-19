@@ -6,41 +6,11 @@ const playingSong = document.getElementById("player-song-title");
 const songArtist = document.getElementById("player-song-artist");
 
 const allSongs = [
-  {
-    id: 0,
-    title: "Hello World",
-    artist: "Rafael",
-    duration: "0:23",
-    src: "https://cdn.freecodecamp.org/curriculum/js-music-player/hello-world.mp3",
-  },
-  {
-    id: 1,
-    title: "In the Zone",
-    artist: "Rafael",
-    duration: "0:11",
-    src: "https://cdn.freecodecamp.org/curriculum/js-music-player/in-the-zone.mp3",
-  },
-  {
-    id: 2,
-    title: "Camper Cat",
-    artist: "Rafael",
-    duration: "0:21",
-    src: "https://cdn.freecodecamp.org/curriculum/js-music-player/camper-cat.mp3",
-  },
-  {
-    id: 3,
-    title: "Electronic",
-    artist: "Rafael",
-    duration: "0:15",
-    src: "https://cdn.freecodecamp.org/curriculum/js-music-player/electronic.mp3",
-  },
-  {
-    id: 4,
-    title: "Sailing Away",
-    artist: "Rafael",
-    duration: "0:22",
-    src: "https://cdn.freecodecamp.org/curriculum/js-music-player/sailing-away.mp3",
-  },
+  { id: 0, title: "Hello World", artist: "Rafael", duration: "0:23", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/hello-world.mp3" },
+  { id: 1, title: "In the Zone", artist: "Rafael", duration: "0:11", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/in-the-zone.mp3" },
+  { id: 2, title: "Camper Cat", artist: "Rafael", duration: "0:21", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/camper-cat.mp3" },
+  { id: 3, title: "Electronic", artist: "Rafael", duration: "0:15", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/electronic.mp3" },
+  { id: 4, title: "Sailing Away", artist: "Rafael", duration: "0:22", src: "https://cdn.freecodecamp.org/curriculum/js-music-player/sailing-away.mp3" },
 ];
 
 const audio = new Audio();
@@ -57,21 +27,11 @@ const setPlayPauseIcon = (isPlaying) => {
 
   playIcon.hidden = isPlaying;
   pauseIcon.hidden = !isPlaying;
-  playButton.classList.toggle("is-playing", isPlaying);
-
-  const songTitle = userData.currentSong?.title;
-  playButton.setAttribute(
-    "aria-label",
-    isPlaying
-      ? `Pause ${songTitle ?? "song"}`
-      : songTitle
-        ? `Play ${songTitle}`
-        : "Play"
-  );
+  playButton.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
 };
 
 const playSong = (id, start = true) => {
-  const song = userData.songs.find((song) => song.id === id);
+  const song = userData.songs.find((item) => item.id === id);
   if (!song) return;
 
   audio.src = song.src;
@@ -88,9 +48,7 @@ const playSong = (id, start = true) => {
 
   highlightCurrentSong();
   setPlayerDisplay();
-  audio.play().catch(() => {
-    setPlayPauseIcon(false);
-  });
+  audio.play().catch(() => setPlayPauseIcon(false));
 };
 
 const pauseSong = () => {
@@ -107,11 +65,7 @@ const playPreviousSong = () => {
   if (userData.currentSong === null) return;
 
   const previousSong = getPreviousSong();
-  if (previousSong) {
-    playSong(previousSong.id);
-  } else {
-    playSong(userData.songs[0].id);
-  }
+  playSong(previousSong ? previousSong.id : userData.songs[0].id);
 };
 
 const playNextSong = () => {
@@ -145,10 +99,7 @@ const highlightCurrentSong = () => {
   const previousCurrentSong = document.querySelector('.playlist-song[aria-current="true"]');
   previousCurrentSong?.removeAttribute("aria-current");
 
-  const songToHighlight = document.getElementById(
-    `song-${userData.currentSong?.id}`
-  );
-
+  const songToHighlight = document.getElementById(`song-${userData.currentSong?.id}`);
   songToHighlight?.setAttribute("aria-current", "true");
 };
 
@@ -172,7 +123,4 @@ document.querySelectorAll(".playlist-song").forEach((song) => {
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
 audio.addEventListener("ended", playNextSong);
-audio.addEventListener("play", () => setPlayPauseIcon(true));
-audio.addEventListener("pause", () => setPlayPauseIcon(false));
-
 setPlayPauseIcon(false);

@@ -242,15 +242,8 @@ button {
   background: linear-gradient(135deg, #ff7189, #ffa078);
 }
 
-/* The button has both icons in its markup; show only the one JS leaves unhidden. */
-#play .play-icon,
-#play .pause-icon {
+#play svg[hidden] {
   display: none !important;
-}
-
-#play .play-icon:not([hidden]),
-#play .pause-icon:not([hidden]) {
-  display: block !important;
 }
 
 .playlist {
@@ -343,54 +336,19 @@ button {
 }
 
 @media (max-width: 360px) {
-  body {
-    padding: 6px;
-  }
-
-  .container {
-    gap: 8px;
-  }
-
-  .player,
-  .playlist {
-    padding: 8px;
-  }
-
-  #player-album-art {
-    width: min(64vw, 180px);
-  }
-
-  .player-buttons {
-    gap: 4px;
-  }
-
-  .player-buttons button {
-    flex-basis: 36px;
-    width: 36px;
-  }
-
-  #play {
-    flex-basis: 44px;
-    width: 44px;
-    height: 44px;
-  }
-
-  .playlist-song-info {
-    grid-template-columns: minmax(0, 1fr) 44px 32px;
-  }
-
-  .playlist-song-artist {
-    width: 44px;
-  }
+  body { padding: 6px; }
+  .container { gap: 8px; }
+  .player, .playlist { padding: 8px; }
+  #player-album-art { width: min(64vw, 180px); }
+  .player-buttons { gap: 4px; }
+  .player-buttons button { flex-basis: 36px; width: 36px; }
+  #play { flex-basis: 44px; width: 44px; height: 44px; }
+  .playlist-song-info { grid-template-columns: minmax(0, 1fr) 44px 32px; }
+  .playlist-song-artist { width: 44px; }
 }
 
 @media (min-width: 700px) {
-  body {
-    display: grid;
-    place-items: center;
-    padding: 32px 24px;
-  }
-
+  body { display: grid; place-items: center; padding: 32px 24px; }
   .container {
     max-width: 960px;
     display: grid;
@@ -398,57 +356,20 @@ button {
     align-items: start;
     gap: 20px;
   }
-
-  .player,
-  .playlist {
-    border-radius: 26px;
-  }
-
-  .player {
-    padding: 18px;
-  }
-
-  .player-content {
-    gap: 18px;
-    padding: 22px 8px 8px;
-  }
-
-  #player-album-art {
-    width: min(100%, 320px);
-  }
-
-  .player-display {
-    width: min(100%, 380px);
-  }
-
-  .player-buttons button {
-    flex-basis: 46px;
-    width: 46px;
-  }
-
-  #play {
-    flex-basis: 58px;
-    width: 58px;
-    height: 58px;
-  }
-
-  .playlist {
-    padding: 18px;
-  }
-
-  .playlist-song-info {
-    grid-template-columns: minmax(0, 1fr) 72px 34px;
-  }
-
-  .playlist-song-artist {
-    width: 72px;
-  }
+  .player, .playlist { border-radius: 26px; }
+  .player { padding: 18px; }
+  .player-content { gap: 18px; padding: 22px 8px 8px; }
+  #player-album-art { width: min(100%, 320px); }
+  .player-display { width: min(100%, 380px); }
+  .player-buttons button { flex-basis: 46px; width: 46px; }
+  #play { flex-basis: 58px; width: 58px; height: 58px; }
+  .playlist { padding: 18px; }
+  .playlist-song-info { grid-template-columns: minmax(0, 1fr) 72px 34px; }
+  .playlist-song-artist { width: 72px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
