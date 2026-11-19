@@ -10,7 +10,7 @@ MYMUSIC is a responsive, browser-based music player created as part of my front-
 
 ## 📸 Preview
 
-![MYMUSIC app showing the player and playlist](https://yamkelamazwi.github.io/MusicPlayer/screenshot.png)
+![MYMUSIC app showing the player and playlist](mymusicapp.png)
 
 > The screenshot is the app's finished desktop view, with the music player and playlist displayed side by side.
 
