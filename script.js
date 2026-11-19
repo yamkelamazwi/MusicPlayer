@@ -52,7 +52,13 @@ const userData = {
 };
 
 const setPlayPauseIcon = (isPlaying) => {
+  const playIcon = playButton.querySelector(".play-icon");
+  const pauseIcon = playButton.querySelector(".pause-icon");
+
+  playIcon.hidden = isPlaying;
+  pauseIcon.hidden = !isPlaying;
   playButton.classList.toggle("is-playing", isPlaying);
+
   const songTitle = userData.currentSong?.title;
   playButton.setAttribute(
     "aria-label",
