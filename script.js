@@ -52,17 +52,21 @@ const userData = {
 };
 
 const setPlayPauseIcon = (isPlaying) => {
-  const playIcon = playButton.querySelector(".play-icon");
-  const pauseIcon = playButton.querySelector(".pause-icon");
-
-  playIcon.hidden = isPlaying;
-  pauseIcon.hidden = !isPlaying;
-  playButton.classList.toggle("playing", isPlaying);
-  playButton.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
+  playButton.classList.toggle("is-playing", isPlaying);
+  const songTitle = userData.currentSong?.title;
+  playButton.setAttribute(
+    "aria-label",
+    isPlaying
+      ? `Pause ${songTitle ?? "song"}`
+      : songTitle
+        ? `Play ${songTitle}`
+        : "Play"
+  );
 };
 
 const playSong = (id, start = true) => {
   const song = userData.songs.find((song) => song.id === id);
+  if (!song) return;
 
   audio.src = song.src;
   audio.title = song.title;
@@ -78,14 +82,15 @@ const playSong = (id, start = true) => {
 
   highlightCurrentSong();
   setPlayerDisplay();
-  setPlayButtonAccessibleText();
-  audio.play();
+  audio.play().catch(() => {
+    setPlayPauseIcon(false);
+  });
 };
 
 const pauseSong = () => {
   userData.songCurrentTime = audio.currentTime;
-  setPlayPauseIcon(false);
   audio.pause();
+  setPlayPauseIcon(false);
 };
 
 const getCurrentSongIndex = () => userData.songs.indexOf(userData.currentSong);
@@ -117,7 +122,6 @@ const playNextSong = () => {
     userData.songCurrentTime = 0;
     setPlayerDisplay();
     highlightCurrentSong();
-    setPlayButtonAccessibleText();
     setPlayPauseIcon(false);
     audio.pause();
   }
@@ -127,8 +131,8 @@ const setPlayerDisplay = () => {
   const currentTitle = userData.currentSong?.title;
   const currentArtist = userData.currentSong?.artist;
 
-  playingSong.textContent = currentTitle ? currentTitle : "";
-  songArtist.textContent = currentArtist ? currentArtist : "";
+  playingSong.textContent = currentTitle || "";
+  songArtist.textContent = currentArtist || "";
 };
 
 const highlightCurrentSong = () => {
@@ -142,14 +146,6 @@ const highlightCurrentSong = () => {
   songToHighlight?.setAttribute("aria-current", "true");
 };
 
-const setPlayButtonAccessibleText = () => {
-  const song = userData.currentSong;
-  playButton.setAttribute(
-    "aria-label",
-    song ? `Play ${song.title}` : "Play"
-  );
-};
-
 playButton.addEventListener("click", () => {
   if (userData.currentSong === null) {
     playSong(userData.songs[0].id);
@@ -160,21 +156,16 @@ playButton.addEventListener("click", () => {
   }
 });
 
-const songs = document.querySelectorAll(".playlist-song");
-
-songs.forEach((song) => {
-  const id = song.getAttribute("id").slice(5);
-  const songBtn = song.querySelector("button");
-
-  songBtn.addEventListener("click", () => {
-    playSong(Number(id));
+document.querySelectorAll(".playlist-song").forEach((song) => {
+  const id = Number(song.id.slice(5));
+  song.querySelector("button").addEventListener("click", () => {
+    playSong(id);
   });
 });
 
 nextButton.addEventListener("click", playNextSong);
 previousButton.addEventListener("click", playPreviousSong);
 audio.addEventListener("ended", playNextSong);
-
 audio.addEventListener("play", () => setPlayPauseIcon(true));
 audio.addEventListener("pause", () => setPlayPauseIcon(false));
 

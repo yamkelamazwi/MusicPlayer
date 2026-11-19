@@ -242,8 +242,21 @@ button {
   background: linear-gradient(135deg, #ff7189, #ffa078);
 }
 
-#play svg[hidden] {
+/* Show one SVG icon at a time; the playing class is toggled by script.js. */
+#play .play-icon {
+  display: block;
+}
+
+#play .pause-icon {
   display: none;
+}
+
+#play.is-playing .play-icon {
+  display: none;
+}
+
+#play.is-playing .pause-icon {
+  display: block;
 }
 
 .playlist {
