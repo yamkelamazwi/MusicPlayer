@@ -7,9 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <title>
-    Build a Music Player App
-  </title>
+  <title>Build a Music Player App</title>
 </head>
 
 <body>
@@ -26,16 +24,19 @@
           <div></div>
         </div>
       </div>
+
       <div class="player-content">
         <div id="player-album-art">
           <img src="https://cdn.freecodecamp.org/curriculum/js-music-player/digital-drift.jpg"
             alt="song cover art" />
         </div>
+
         <div class="player-display">
           <div class="player-display-song-artist">
             <p id="player-song-title"></p>
             <p id="player-song-artist"></p>
           </div>
+
           <div class="player-buttons">
             <button id="previous" class="previous" aria-label="Previous">
               <svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,17 +44,19 @@
                 <rect width="4.63633" height="18.5453" transform="matrix(-1 0 0 1 4.63633 0)" />
               </svg>
             </button>
+
             <button id="play" class="play" aria-label="Play">
-              <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="play-icon" width="17" height="19" viewBox="0 0 17 19" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M0 0L16.1852 9.5L1.88952e-07 19L0 0Z" />
               </svg>
-            </button>
-            <button id="pause" class="pause" aria-label="Pause">
-              <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 6.54013e-07H4.75V19H0V6.54013e-07Z" />
+              <svg class="pause-icon" width="17" height="19" viewBox="0 0 17 19" fill="none"
+                xmlns="http://www.w3.org/2000/svg" aria-hidden="true" hidden>
+                <path d="M0 0H4.75V19H0V0Z" />
                 <path d="M11.4 0H16.15V19H11.4V0Z" />
               </svg>
             </button>
+
             <button id="next" class="next" aria-label="Next">
               <svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0L16.1852 9.5L1.88952e-07 19L0 0Z" />
@@ -64,6 +67,7 @@
         </div>
       </div>
     </div>
+
     <div class="playlist">
       <div class="playlist-bar">
         <div class="parallel-lines">
@@ -76,9 +80,10 @@
           <div></div>
         </div>
       </div>
+
       <ul id="playlist-songs">
         <li id="song-0" class="playlist-song">
-          <button class="playlist-song-info" >
+          <button class="playlist-song-info">
             <span class="playlist-song-title">Hello World</span>
             <span class="playlist-song-artist">Rafael</span>
             <span class="playlist-song-duration">0:23</span>
@@ -86,7 +91,7 @@
         </li>
 
         <li id="song-1" class="playlist-song">
-          <button class="playlist-song-info" >
+          <button class="playlist-song-info">
             <span class="playlist-song-title">In the Zone</span>
             <span class="playlist-song-artist">Rafael</span>
             <span class="playlist-song-duration">0:11</span>
@@ -94,7 +99,7 @@
         </li>
 
         <li id="song-2" class="playlist-song">
-          <button class="playlist-song-info" >
+          <button class="playlist-song-info">
             <span class="playlist-song-title">Camper Cat</span>
             <span class="playlist-song-artist">Rafael</span>
             <span class="playlist-song-duration">0:21</span>
@@ -102,7 +107,7 @@
         </li>
 
         <li id="song-3" class="playlist-song">
-          <button class="playlist-song-info" >
+          <button class="playlist-song-info">
             <span class="playlist-song-title">Electronic</span>
             <span class="playlist-song-artist">Rafael</span>
             <span class="playlist-song-duration">0:15</span>
@@ -110,7 +115,7 @@
         </li>
 
         <li id="song-4" class="playlist-song">
-          <button class="playlist-song-info" >
+          <button class="playlist-song-info">
             <span class="playlist-song-title">Sailing Away</span>
             <span class="playlist-song-artist">Rafael</span>
             <span class="playlist-song-duration">0:22</span>
@@ -119,6 +124,7 @@
       </ul>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 

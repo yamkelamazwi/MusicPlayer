@@ -75,7 +75,6 @@ button {
   justify-content: center;
 }
 
-/* Decorative burger/menu lines */
 .parallel-lines {
   display: none;
 }
@@ -193,8 +192,7 @@ button {
   fill: currentColor;
 }
 
-#play,
-#pause {
+#play {
   flex: 0 0 48px;
   width: 48px;
   height: 48px;
@@ -203,13 +201,12 @@ button {
   box-shadow: 0 8px 24px rgb(255 90 120 / 30%);
 }
 
-#play:hover,
-#pause:hover {
+#play:hover {
   background: linear-gradient(135deg, #ff7189, #ffa078);
 }
 
-button[hidden] {
-  display: none !important;
+#play svg[hidden] {
+  display: none;
 }
 
 .playlist {
@@ -328,8 +325,7 @@ button[hidden] {
     width: 36px;
   }
 
-  #play,
-  #pause {
+  #play {
     flex-basis: 44px;
     width: 44px;
     height: 44px;
@@ -386,8 +382,7 @@ button[hidden] {
     width: 46px;
   }
 
-  #play,
-  #pause {
+  #play {
     flex-basis: 58px;
     width: 58px;
     height: 58px;
